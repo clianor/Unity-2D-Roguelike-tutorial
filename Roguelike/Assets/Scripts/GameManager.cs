@@ -23,9 +23,9 @@ public class GameManager : MonoBehaviour
     private bool doingSetup;
     private Text foodText;
     private GameObject restartbutton;
-    private bool destroy;
+    private bool destroy = false;
 
-    IEnumerator Start() //
+    IEnumerator Start()
     {
         GameObject canvas = GameObject.Find("Canvas");
         canvas.SetActive(false);
@@ -70,19 +70,18 @@ public class GameManager : MonoBehaviour
     void InitGame()
     {
         doingSetup = true;
-        
 
         quitbutton = GameObject.Find("QuitButton");
         restartbutton = GameObject.Find("ReStartButton");
         levelImage = GameObject.Find("LevelImage");
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
         levelText.text = "Day " + level;
-        if (levelText.text != "Day 1") //
+        if (levelText.text != "Day 1")
         {
             GameObject loading = GameObject.Find("Loading");
             Destroy(loading);
         }
-        else if (destroy == true) //
+        else if (destroy == true) 
         {
             GameObject loading = GameObject.Find("Loading");
             Destroy(loading);
@@ -112,6 +111,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
         if (playersTurn || enemiesMoving || doingSetup)
             return;
 
