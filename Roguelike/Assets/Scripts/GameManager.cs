@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,7 +21,20 @@ public class GameManager : MonoBehaviour
     private List<Enemy> enemies;
     private bool enemiesMoving;
     private bool doingSetup;
-    
+    private Text foodText;
+    private GameObject restartbutton;
+
+    public void LevelReset()
+    {
+        Player.FoodReset();
+
+        enabled = true;
+        level = 0;
+        foodText = GameObject.Find("FoodText").GetComponent<Text>();
+        foodText.text = "Food: " + playerFoodPoints;
+        SceneManager.LoadScene("main");
+    }
+
     void Awake()
     {
         if (instance == null)
@@ -29,6 +43,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
 
         DontDestroyOnLoad(gameObject);
+        
         enemies = new List<Enemy>();
         boardScript = GetComponent<BoardManager>();
         InitGame();
@@ -45,6 +60,7 @@ public class GameManager : MonoBehaviour
         doingSetup = true;
 
         quitbutton = GameObject.Find("QuitButton");
+        restartbutton = GameObject.Find("ReStartButton");
         levelImage = GameObject.Find("LevelImage");
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
         levelText.text = "Day " + level;
@@ -65,6 +81,7 @@ public class GameManager : MonoBehaviour
     {
         levelText.text = "After " + level + " days, you starved.";
         quitbutton.SetActive(true);
+        restartbutton.SetActive(true);
         levelImage.SetActive(true);
         enabled = false;
     }
