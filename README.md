@@ -8,3 +8,4 @@
 6. Volume Controle
 7. Volume Text
 8. Info
+9. CaptureButton
