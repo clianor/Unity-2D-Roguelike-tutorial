@@ -16,7 +16,7 @@ public class Player : MovingObject
     public AudioClip drinkSound1;
     public AudioClip drinkSound2;
     public AudioClip gameOverSound;
-
+    
     private Animator animator;
     private static int food;
 
@@ -42,7 +42,7 @@ public class Player : MovingObject
     private void Update()
     {
         if (!GameManager.instance.playersTurn) return;
-
+        
         int horizontal = 0;
         int vertical = 0;
         
@@ -113,6 +113,7 @@ public class Player : MovingObject
     
     public void LoseFood(int loss)
     {
+        Camera.main.GetComponent<CameraControl>().Shake(0.5f, 20, 50);
         animator.SetTrigger("playerHit");
         food -= loss;
         foodText.text = "-" + loss + " Food: " + food;
