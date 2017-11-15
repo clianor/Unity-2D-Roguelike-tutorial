@@ -23,8 +23,9 @@ public class GameManager : MonoBehaviour
     private bool doingSetup;
     private Text foodText;
     private GameObject restartbutton;
+    private GameObject infobutton; //
     private bool destroy = false;
-
+    
     IEnumerator Start()
     {
         GameObject canvas = GameObject.Find("Canvas");
@@ -73,6 +74,7 @@ public class GameManager : MonoBehaviour
 
         quitbutton = GameObject.Find("QuitButton");
         restartbutton = GameObject.Find("ReStartButton");
+        infobutton = GameObject.Find("InfoButton"); //
         levelImage = GameObject.Find("LevelImage");
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
         levelText.text = "Day " + level;
@@ -105,16 +107,30 @@ public class GameManager : MonoBehaviour
         levelText.text = "After " + level + " days, you starved.";
         quitbutton.SetActive(true);
         restartbutton.SetActive(true);
+        infobutton.SetActive(true); //
         levelImage.SetActive(true);
         enabled = false;
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
         }
+        else if (Input.GetKeyDown(KeyCode.PageDown))
+        {
+            float volume = SoundManager.instance.musicSource.volume;
+            SoundManager.instance.musicSource.volume = (float)System.Math.Round((volume - 0.1f), 1);
+        }
+        else if (Input.GetKeyUp(KeyCode.PageUp))
+        {
+            float volume = SoundManager.instance.musicSource.volume;
+            SoundManager.instance.musicSource.volume = (float)System.Math.Round((volume + 0.1f), 1);
+        }
+        
+        Text volumeText = GameObject.Find("VolumeText").GetComponent<Text>();
+        volumeText.text = "Volume: " + SoundManager.instance.musicSource.volume * 100;
 
         if (playersTurn || enemiesMoving || doingSetup)
             return;
